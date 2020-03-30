@@ -8,12 +8,12 @@ module.exports = ({ PlayersController }) => {
 	 */
 	const controller = PlayersController
 	const router = Router()
-	router.get('/', controller.getPlayers.bind(controller))
-	router.get('/top', controller.getPlayersTop.bind(controller))
-	router.get('/:id', controller.getPlayer.bind(controller))
-	router.post('/', controller.createPlayer.bind(controller))
-	router.put('/:id', controller.updatePlayer.bind(controller))
-	router.delete('/:id', controller.deletePlayer.bind(controller))
+	router.get('/', controller.getAll.bind(controller))
+	router.get('/:id', controller.get.bind(controller))
+	router.get('/top', controller.getTop.bind(controller))
+	router.post('/', controller.create.bind(controller))
+	router.put('/:id', controller.update.bind(controller))
+	router.delete('/:id', controller.delete.bind(controller))
 
 	return router
 }

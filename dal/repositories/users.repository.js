@@ -1,9 +1,8 @@
 'use strict'
 const Repository = require('./repository')
-const { UserDto } = require('../dto')
 
 class UsersRepository extends Repository {
-	constructor({ db }) {
+	constructor({ db, UserDto }) {
 		super(db, UserDto, 'users')
 	}
 	// Aqui van las consultas especializadas

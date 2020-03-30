@@ -1,5 +1,5 @@
 'use strict'
-const mapper = require('automapper-js')
+const { morphism } = require('morphism')
 /*
  * Manejador de consultas a la base de datos
  */
@@ -10,27 +10,29 @@ class Repository {
 		this.entityDto = entityDto
 	}
 
-	getAll() {
-		const entities = this.db[this.entity].findAll()
-		return entities.map(item => mapper(this.entityDto, item))
+	async getAll() {
+		const dto = await this.entityDto.repository()
+		const entities = await this.db[this.entity].findAll()
+		return entities.map(item => morphism(dto, item))
 	}
 
-	get(id) {
-		const entity = this.db[this.entity].findOne({ where: { id } })
-		return mapper(this.entityDto, entity)
+	async get(id) {
+		const dto = await this.entityDto.repository()
+		const entity = await this.db[this.entity].findOne({ where: { id } })
+		return morphism(dto, entity)
 	}
 
 	async create(entity) {
-		entity = mapper(this.entityDto, entity)
+		const dto = await this.entityDto.repository()
+		entity = morphism(dto, entity)
 		const created = await this.db[this.entity].create(entity)
-		return mapper(this.entityDto, created)
+		return morphism(dto, created)
 	}
 
 	async update(id, entity) {
-		// TODO: verificar los campos de created_At y updated_At cuando se actualize
-
+		const dto = await this.entityDto.repository()
 		entity.id = id
-		entity = mapper(this.entityDto, entity)
+		entity = morphism(dto, entity)
 		delete entity.created_at
 		delete entity.updated_at
 		return await this.db[this.entity].update(entity, { where: { id } })

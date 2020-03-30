@@ -38,6 +38,12 @@ const {
 	UsersRepository
 } = require(path.join(__dirname, '../dal/repositories'))
 
+// DTOS:
+const { AnswerDto, PlayerDto, QuestionDto, UserDto } = require(path.join(
+	__dirname,
+	'../dtos'
+))
+
 // Middlewares:
 const { AuthMiddleware } = require(path.join(__dirname, './middlewares'))
 
@@ -97,6 +103,16 @@ container
 		PlayersRepository: asClass(PlayersRepository).singleton(),
 		QuestionsRepository: asClass(QuestionsRepository).singleton(),
 		UsersRepository: asClass(UsersRepository).singleton()
+	})
+
+	/*
+	 * DTOS
+	 */
+	.register({
+		AnswerDto: asClass(AnswerDto).singleton(),
+		PlayerDto: asClass(PlayerDto).singleton(),
+		QuestionDto: asClass(QuestionDto).singleton(),
+		UserDto: asClass(UserDto).singleton()
 	})
 
 	/*

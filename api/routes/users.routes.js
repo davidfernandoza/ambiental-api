@@ -8,11 +8,11 @@ module.exports = ({ UsersController }) => {
 	 */
 	const controller = UsersController
 	const router = Router()
-	router.get('/', controller.getUsers.bind(controller))
-	router.get('/:id', controller.getUser.bind(controller))
-	router.post('/', controller.createUser.bind(controller))
-	router.put('/:id', controller.updateUser.bind(controller))
-	router.delete('/:id', controller.deleteUser.bind(controller))
+	router.get('/', controller.getAll.bind(controller))
+	router.get('/:id', controller.get.bind(controller))
+	router.post('/', controller.create.bind(controller))
+	router.put('/:id', controller.update.bind(controller))
+	router.delete('/:id', controller.delete.bind(controller))
 
 	return router
 }

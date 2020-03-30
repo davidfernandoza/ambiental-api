@@ -5,6 +5,7 @@ const { Router } = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const compression = require('compression')
+const helmet = require('helmet')
 const { ErrorHandleMiddleware } = require(join(__dirname, '../middlewares'))
 
 module.exports = ({
@@ -19,6 +20,7 @@ module.exports = ({
 	// Parsear la peticion
 	apiRoute
 		.use(cors())
+		.use(helmet())
 		.use(bodyParser.urlencoded({ extended: false }))
 		.use(bodyParser.json())
 		.use(compression())
