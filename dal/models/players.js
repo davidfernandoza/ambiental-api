@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
 				unique: true,
 				type: DataTypes.STRING
 			},
+			password: {
+				allowNull: false,
+				type: DataTypes.STRING
+			},
 			score: {
 				allowNull: false,
 				defaultValue: 0,
@@ -29,17 +33,6 @@ module.exports = (sequelize, DataTypes) => {
 			deletedAt: 'deleted_at'
 		}
 	)
-	players.associate = function(models) {
-		/*
-		 * Muchos jugadores juegan con muchas preguntas
-		 */
-		models.players.belongsToMany(models.questions, {
-			constraints: false,
-			through: models.games,
-			foreignKey: 'id_players',
-			sourceKey: 'id',
-			as: 'questions'
-		})
-	}
+
 	return players
 }

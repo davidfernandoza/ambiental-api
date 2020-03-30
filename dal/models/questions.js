@@ -24,17 +24,6 @@ module.exports = (sequelize, DataTypes) => {
 	)
 	questions.associate = function(models) {
 		/*
-		 * Muchas preguntas son jugadas por muchos jugadores
-		 */
-		models.questions.belongsToMany(models.players, {
-			constraints: false,
-			through: models.games,
-			foreignKey: 'id_questions',
-			sourceKey: 'id',
-			as: 'players'
-		})
-
-		/*
 		 * Una pregunta tiene muchas respuestas (1:M)
 		 */
 		models.questions.hasMany(models.answers, {

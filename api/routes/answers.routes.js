@@ -8,7 +8,7 @@ module.exports = ({ AnswersController }) => {
 	 */
 	const controller = AnswersController
 	const router = Router()
-	router.get('/', controller.getAll.bind(controller))
+	// router.get('/answer/:id', controller.getAllAnswer.bind(controller))
 	router.get('/:id', controller.get.bind(controller))
 	router.post('/', controller.create.bind(controller))
 	router.put('/:id', controller.update.bind(controller))
