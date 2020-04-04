@@ -8,14 +8,17 @@ class AuthMiddleware {
 	}
 
 	async auth(req, res, next) {
-		if (!req.headers.http_auth_token) throw new Error('ERR403')
+		if (!req.headers.http_auth_token) throw new Error('ERR401')
 
 		const authToken = req.headers.http_auth_token
 
 		// Consultar lista negra de tokens
-		const invalid_token = await this.tokenBlackListRepository.getAttributes('token', authToken)
+		const invalid_token = await this.tokenBlackListRepository.getAttributes(
+			'token',
+			authToken
+		)
 
-		if (invalid_token != null) throw new Error('ERR403')
+		if (invalid_token != null) throw new Error('ERR401')
 		else {
 			let responseToken = await this.tokenServices.decode(authToken, false)
 
@@ -33,7 +36,7 @@ class AuthMiddleware {
 				}
 			}
 
-			if (responseToken.status === 403) throw new Error('ERR403')
+			if (responseToken.status === 403) throw new Error('ERR401')
 			else {
 				req.idUser = responseToken.payload.idUser
 				req.rolUser = responseToken.payload.rolUser
@@ -43,6 +46,6 @@ class AuthMiddleware {
 	}
 }
 
-// 
+//
 
 module.exports = AuthMiddleware

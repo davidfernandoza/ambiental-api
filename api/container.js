@@ -7,6 +7,7 @@ const Server = require(path.join(__dirname, './server'))
 const Routes = require(path.join(__dirname, './routes'))
 const Config = require(path.join(__dirname, '../config/env'))
 const db = require(path.join(__dirname, '../dal/models'))
+const JoiValidator = require('@hapi/joi')
 const { asClass, asFunction, asValue, createContainer } = require('awilix')
 const container = createContainer()
 
@@ -64,6 +65,15 @@ const { PlayersPolitics, UsersPolitics } = require(path.join(
 	'./middlewares/politics'
 ))
 
+// Requests:
+const {
+	AnswersRequest,
+	AuthRequest,
+	PlayersRequest,
+	QuestionsRequest,
+	UsersRequest
+} = require(path.join(__dirname, './middlewares/requests'))
+
 // Services:
 const { TokenServices } = require(path.join(__dirname, '../services'))
 
@@ -92,7 +102,8 @@ container
 	.register({
 		Config: asValue(Config),
 		DB: asValue(db),
-		ErrorString: asValue(ErrorString)
+		ErrorString: asValue(ErrorString),
+		JoiValidator: asValue(JoiValidator)
 	})
 	/*
 	 * Routes:
@@ -159,6 +170,18 @@ container
 		PlayersPolitics: asClass(PlayersPolitics).singleton(),
 		UsersPolitics: asClass(UsersPolitics).singleton()
 	})
+
+	/*
+	 * Requests:
+	 */
+	.register({
+		AnswersRequest: asClass(AnswersRequest).singleton(),
+		AuthRequest: asClass(AuthRequest).singleton(),
+		PlayersRequest: asClass(PlayersRequest).singleton(),
+		QuestionsRequest: asClass(QuestionsRequest).singleton(),
+		UsersRequest: asClass(UsersRequest).singleton()
+	})
+
 	/*
 	 * Services:
 	 */
