@@ -5,13 +5,13 @@ module.exports = {
 		name: 'Forbidden',
 		status: 403,
 		code: 'ERR400',
-		message: 'El cuerpor de la consulta es incorrecto'
+		message: 'El cuerpo de la consulta es incorrecto'
 	},
 	ERR401: {
 		name: 'Forbidden',
 		status: 403,
-		code: 'ERR401',
-		message: 'El token del cliente es incorrecto'
+		code: 'ERR405',
+		message: 'El token de verificación es incorrecto'
 	},
 	ERR402: {
 		name: 'Forbidden',
@@ -30,12 +30,6 @@ module.exports = {
 		status: 404,
 		code: 'ERR404',
 		message: 'Recurso no encontrado'
-	},
-	ERR405: {
-		name: 'Forbidden',
-		status: 403,
-		code: 'ERR405',
-		message: 'El token de verificación es incorrecto'
 	},
 	ERR500: {
 		name: 'Internal Server Error',

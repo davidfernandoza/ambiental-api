@@ -2,18 +2,31 @@
 
 const { Router } = require('express')
 
-module.exports = ({ PlayersController }) => {
+module.exports = ({
+	PlayersController,
+	AuthMiddleware,
+	PlayersPolitics,
+	UsersPolitics
+}) => {
 	/*
 	 * Rutas de los jugadores:
+	 * -------------------------
+	 * Middlewares:
 	 */
+	const auth = AuthMiddleware.auth.bind(AuthMiddleware)
+	const politics = [
+		PlayersPolitics.validate.bind(PlayersPolitics),
+		UsersPolitics.validate.bind(UsersPolitics)
+	]
+
 	const controller = PlayersController
 	const router = Router()
-	router.get('/', controller.getAll.bind(controller))
-	router.get('/:id', controller.get.bind(controller))
-	router.get('/top', controller.getTop.bind(controller))
-	router.post('/', controller.create.bind(controller))
-	router.put('/:id', controller.update.bind(controller))
-	router.delete('/:id', controller.delete.bind(controller))
+	router.get('/', auth, politics, controller.getAll.bind(controller))
+	router.get('/:id', auth, politics, controller.get.bind(controller)) // Todos los usuarios
+	router.get('/top/:amount', politics, controller.getTop.bind(controller)) // Publico
+	router.post('/', politics, controller.create.bind(controller)) // Publico
+	router.put('/:id', auth, politics, controller.update.bind(controller)) // Todos los usuarios
+	router.delete('/:id', auth, politics, controller.delete.bind(controller))
 
 	return router
 }

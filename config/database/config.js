@@ -1,4 +1,6 @@
-const { DB } = require('../../config/env')
+'use strict'
+const { join } = require('path')
+const { DB } = require(join(__dirname, '../../config/env'))
 const config = DB
 
 module.exports = {

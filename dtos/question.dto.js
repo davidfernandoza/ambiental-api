@@ -3,12 +3,12 @@ const { join } = require('path')
 const Dto = require(join(__dirname, './dto'))
 
 class QuestionDto extends Dto {
-	constructor() {
+	constructor({ AnswerDto }) {
 		const schema = {
 			id: 'id',
 			description: 'description'
 		}
-		super(schema)
+		super(schema, AnswerDto, 'answers')
 	}
 }
 

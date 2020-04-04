@@ -22,6 +22,14 @@ class Repository {
 		return morphism(dto, entity)
 	}
 
+	async getAttributes(attribut, match) {
+		const dto = await this.entityDto.repository()
+		const entity = await this.db[this.entity].findOne({
+			where: { [attribut]: match }
+		})
+		return morphism(dto, entity)
+	}
+
 	async create(entity) {
 		const dto = await this.entityDto.repository()
 		entity = morphism(dto, entity)

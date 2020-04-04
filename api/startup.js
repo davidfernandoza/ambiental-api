@@ -4,12 +4,12 @@
  * Se le pasa el servido por DI y este lo ejecuta con el metodo start
  */
 class StartUp {
-	constructor({ server }) {
-		this._server = server
+	constructor({ Server }) {
+		this.server = Server
 	}
 
 	async start() {
-		return await this._server.start().then(data => data)
+		return await this.server.start().then(data => data)
 	}
 }
 module.exports = StartUp

@@ -12,6 +12,13 @@ class UserDto extends Dto {
 		super(schema)
 	}
 
+	async api() {
+		const schema = await super.api()
+		schema.auth_token = 'token'
+		delete schema.password
+		return schema
+	}
+
 	async repository() {
 		this.schema.password = 'password'
 		return super.repository()

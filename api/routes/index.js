@@ -10,6 +10,7 @@ const { ErrorHandleMiddleware } = require(join(__dirname, '../middlewares'))
 
 module.exports = ({
 	AnswersRoutes,
+	AuthRoutes,
 	PlayersRoutes,
 	QuestionsRoutes,
 	UsersRoutes
@@ -27,6 +28,7 @@ module.exports = ({
 
 	// Registro de rutas
 	apiRoute.use('/answers', AnswersRoutes)
+	apiRoute.use('/auth', AuthRoutes)
 	apiRoute.use('/players', PlayersRoutes)
 	apiRoute.use('/questions', QuestionsRoutes)
 	apiRoute.use('/users', UsersRoutes)

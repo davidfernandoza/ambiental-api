@@ -4,8 +4,8 @@ const Repository = require('./repository')
 const { morphism } = require('morphism')
 
 class QuestionsRepository extends Repository {
-	constructor({ db, QuestionDto }) {
-		super(db, QuestionDto, 'questions')
+	constructor({ DB, QuestionDto }) {
+		super(DB, QuestionDto, 'questions')
 	}
 
 	async getAll() {
@@ -18,6 +18,7 @@ class QuestionsRepository extends Repository {
 				}
 			]
 		})
+
 		return entities.map(item => morphism(dto, item))
 	}
 	// Aqui van las consultas especializadas

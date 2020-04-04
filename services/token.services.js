@@ -3,25 +3,25 @@ const jwt = require('jwt-simple')
 const moment = require('moment')
 
 class TokenServices {
-	constructor({ config, UsersController, PlayersController }) {
-		this.config = config
+	constructor({ Config, UsersController, PlayersController }) {
+		this.config = Config
 		this.UsersController = UsersController
 		this.PlayersController = PlayersController
 	}
 
 	//  Metodo para crear el token
-	async create(id_user, rol_user) {
+	async create(idUser, rolUser) {
 		if (
-			id_user == null ||
-			id_user == undefined ||
-			rol_user == null ||
-			rol_user == undefined
+			idUser == null ||
+			idUser == undefined ||
+			rolUser == null ||
+			rolUser == undefined
 		)
 			return { status: 403, payload: null }
 		else {
 			const payload = {
-				sub: id_user,
-				rol: rol_user,
+				sub: idUser,
+				rol: rolUser,
 				iat: moment().unix(),
 				exp: moment()
 					.add(7, 'days')
@@ -41,8 +41,8 @@ class TokenServices {
 			 */
 			const payload = jwt.decode(token, this.config.TOKEN_KEY, status)
 			const data = {
-				id_user: payload.sub,
-				rol_user: payload.rol
+				idUser: payload.sub,
+				rolUser: payload.rol
 			}
 			return { status: 200, payload: data }
 		} catch (err) {
@@ -55,25 +55,25 @@ class TokenServices {
 
 	// Metodo que refresca el token
 	async refresh(token) {
-		const data_token = await this.decode(token, true)
-		if (data_token.status == 403) return { status: 403, payload: null }
+		const dataToken = await this.decode(token, true)
+		if (dataToken.status == 403) return { status: 403, payload: null }
 
 		// Validar la existencia del usuario
-		let user_player = ''
-		if (data_token.payload.rol_user == 'user') {
-			user_player = await this.UsersController.get(data_token.payload.id_user)
+		let userPlayer = ''
+		if (dataToken.payload.rolUser == 'user') {
+			userPlayer = await this.UsersController.get(dataToken.payload.idUser)
 		} else {
-			user_player = await this.PlayersController.get(data_token.payload.id_user)
+			userPlayer = await this.PlayersController.get(dataToken.payload.idUser)
 		}
 
-		if (user_player == null) return { status: 403, payload: null }
+		if (userPlayer == null) return { status: 403, payload: null }
 
 		// creacion de nuevo token con datos antiguos
-		const new_token = await this.create(
-			data_token.payload.id_user,
-			data_token.payload.rol_user
+		const newToken = await this.create(
+			dataToken.payload.idUser,
+			dataToken.payload.rolUser
 		)
-		return { status: 200, payload: { token: new_token } }
+		return { status: 200, payload: { token: newToken } }
 	}
 }
 

@@ -10,8 +10,15 @@ const db = require(path.join(__dirname, '../dal/models'))
 const { asClass, asFunction, asValue, createContainer } = require('awilix')
 const container = createContainer()
 
+// Auths
+const { PlayerAuth, UserAuth } = require(path.join(
+	__dirname,
+	'./controllers/auth'
+))
+
 // Rutas:
 const AnswersRoutes = require(path.join(__dirname, './routes/answers.routes'))
+const AuthRoutes = require(path.join(__dirname, './routes/auth.routes'))
 const PlayersRoutes = require(path.join(__dirname, './routes/players.routes'))
 const QuestionsRoutes = require(path.join(
 	__dirname,
@@ -35,17 +42,30 @@ const {
 	AnswersRepository,
 	PlayersRepository,
 	QuestionsRepository,
+	TokenBlackListRepository,
 	UsersRepository
 } = require(path.join(__dirname, '../dal/repositories'))
 
 // DTOS:
-const { AnswerDto, PlayerDto, QuestionDto, UserDto } = require(path.join(
-	__dirname,
-	'../dtos'
-))
+const {
+	AnswerDto,
+	PlayerDto,
+	QuestionDto,
+	TokenBlackListDto,
+	UserDto
+} = require(path.join(__dirname, '../dtos'))
 
 // Middlewares:
 const { AuthMiddleware } = require(path.join(__dirname, './middlewares'))
+
+// Politics:
+const { PlayersPolitics, UsersPolitics } = require(path.join(
+	__dirname,
+	'./middlewares/politics'
+))
+
+// Services:
+const { TokenServices } = require(path.join(__dirname, '../services'))
 
 /*
  * singleton -> es una unica instancia para todas las peticiones
@@ -63,28 +83,36 @@ container
 	 * Server:
 	 */
 	.register({
-		app: asClass(StartUp).singleton(),
-		server: asClass(Server).singleton()
+		App: asClass(StartUp).singleton(),
+		Server: asClass(Server).singleton()
 	})
 	/*
 	 * Config:
 	 */
 	.register({
-		config: asValue(Config),
-		db: asValue(db),
+		Config: asValue(Config),
+		DB: asValue(db),
 		ErrorString: asValue(ErrorString)
 	})
 	/*
 	 * Routes:
 	 */
 	.register({
-		routes: asFunction(Routes).singleton()
+		Routes: asFunction(Routes).singleton()
 	})
 	.register({
 		AnswersRoutes: asFunction(AnswersRoutes).singleton(),
+		AuthRoutes: asFunction(AuthRoutes).singleton(),
 		PlayersRoutes: asFunction(PlayersRoutes).singleton(),
 		QuestionsRoutes: asFunction(QuestionsRoutes).singleton(),
 		UsersRoutes: asFunction(UsersRoutes).singleton()
+	})
+	/*
+	 * Auth:
+	 */
+	.register({
+		PlayerAuth: asClass(PlayerAuth).singleton(),
+		UserAuth: asClass(UserAuth).singleton()
 	})
 	/*
 	 * Controllers:
@@ -102,6 +130,7 @@ container
 		AnswersRepository: asClass(AnswersRepository).singleton(),
 		PlayersRepository: asClass(PlayersRepository).singleton(),
 		QuestionsRepository: asClass(QuestionsRepository).singleton(),
+		TokenBlackListRepository: asClass(TokenBlackListRepository).singleton(),
 		UsersRepository: asClass(UsersRepository).singleton()
 	})
 
@@ -112,6 +141,7 @@ container
 		AnswerDto: asClass(AnswerDto).singleton(),
 		PlayerDto: asClass(PlayerDto).singleton(),
 		QuestionDto: asClass(QuestionDto).singleton(),
+		TokenBlackListDto: asClass(TokenBlackListDto).singleton(),
 		UserDto: asClass(UserDto).singleton()
 	})
 
@@ -122,4 +152,17 @@ container
 		AuthMiddleware: asClass(AuthMiddleware).singleton()
 	})
 
+	/*
+	 * Politics:
+	 */
+	.register({
+		PlayersPolitics: asClass(PlayersPolitics).singleton(),
+		UsersPolitics: asClass(UsersPolitics).singleton()
+	})
+	/*
+	 * Services:
+	 */
+	.register({
+		TokenServices: asClass(TokenServices).singleton()
+	})
 module.exports = container
