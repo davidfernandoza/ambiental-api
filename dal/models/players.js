@@ -11,7 +11,10 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			username: {
 				allowNull: false,
-				unique: true,
+				unique: {
+					args: true,
+					message: 'The email is already taken!'
+				},
 				type: DataTypes.STRING
 			},
 			password: {

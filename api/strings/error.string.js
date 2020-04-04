@@ -2,22 +2,16 @@
 
 module.exports = {
 	ERR400: {
-		name: 'Forbidden',
-		status: 403,
+		name: 'Bad Request',
+		status: 400,
 		code: 'ERR400',
-		message: 'El cuerpo de la consulta es incorrecto'
+		message: 'Consulta incorrecta'
 	},
 	ERR401: {
-		name: 'Forbidden',
-		status: 403,
+		name: 'Unauthorized',
+		status: 401,
 		code: 'ERR405',
-		message: 'El token de verificación es incorrecto'
-	},
-	ERR402: {
-		name: 'Forbidden',
-		status: 403,
-		code: 'ERR402',
-		message: 'Las credenciales son incorrectas'
+		message: 'No autorizado para solicitar recursos'
 	},
 	ERR403: {
 		name: 'Forbidden',

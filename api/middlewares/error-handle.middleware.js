@@ -4,23 +4,28 @@ const { ErrorString } = require(join(__dirname, '../strings'))
 
 module.exports = (error, req, res, next) => {
 	const errorObject = {}
-	let pasport = false
+	const validator = error.message.split(':')
+	let code = 'ERR500'
 	if (error.message.length === 6) {
-		const code = error.message
-		if (ErrorString[code] != undefined) {
-			errorObject.status = ErrorString[code].status
-			errorObject.name = ErrorString[code].name
-			errorObject.message = ErrorString[code].message
-			errorObject.code = ErrorString[code].code
-			pasport = true
-		}
+		code = error.message
+	} else if (validator[0] == 'ERR400') {
+		code = validator[0]
 	}
-	if (!pasport) {
-		errorObject.status = ErrorString.ERR500.status
-		errorObject.name = ErrorString.ERR500.name
-		errorObject.message = ErrorString.ERR500.message
-		errorObject.code = ErrorString.ERR500.code
+
+	if (ErrorString[code] == undefined) {
+		code = 'ERR500'
 	}
+
+	errorObject.status = ErrorString[code].status
+	errorObject.name = ErrorString[code].name
+	errorObject.message = ErrorString[code].message
+	errorObject.code = ErrorString[code].code
+
+	if (validator[0] == 'ERR400') {
+		validator.splice(0, 1)
+		errorObject.detail = validator
+	}
+
 	res.status(errorObject.status)
 	res.json(errorObject)
 	next(error.message)

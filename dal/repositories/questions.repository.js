@@ -9,18 +9,22 @@ class QuestionsRepository extends Repository {
 	}
 
 	async getAll() {
-		const dto = await this.entityDto.repository()
-		const entities = await this.db[this.entity].findAll({
-			include: [
-				{
-					model: this.db.answers,
-					as: 'answers'
-				}
-			]
-		})
-
-		return entities.map(item => morphism(dto, item))
+		try {
+			const dto = await this.entityDto.repository()
+			const entities = await this.db[this.entity].findAll({
+				include: [
+					{
+						model: this.db.answers,
+						as: 'answers'
+					}
+				]
+			})
+			if (entities.length == 0) return null
+			return entities.map(item => morphism(dto, item))
+		} catch (error) {
+			const objecError = JSON.parse(JSON.stringify(error))
+			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+		}
 	}
-	// Aqui van las consultas especializadas
 }
 module.exports = QuestionsRepository
