@@ -18,17 +18,17 @@ class Auth {
 			this.dataEntity.attribute,
 			identity
 		)
-		if (!dataEntity) throw new Error('ERR402')
+		if (!dataEntity) throw new Error('ERR401')
 
 		// Comparar el password del usuario o jugador
-		const result = bcrypt.compare(password, dataEntity)
-		if (!result) throw new Error('ERR402')
+		const result = await bcrypt.compare(password, dataEntity.password)
+		if (!result) throw new Error('ERR401')
 		const authToken = await this.tokenServices.create(
 			dataEntity.id,
 			this.dataEntity.rol
 		)
 
-		if (authToken.status != 200) throw new Error('ERR402')
+		if (authToken.status != 200) throw new Error('ERR401')
 		dataEntity.token = authToken.payload.token
 		const dto = await this.entityDto.api()
 		const entity = morphism(dto, dataEntity)

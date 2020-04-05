@@ -1,15 +1,18 @@
 'use strict'
 const { join } = require('path')
 const Request = require(join(__dirname, './request'))
-
+let rules = {}
 class UsersRequest extends Request {
 	constructor({ JoiValidator }) {
-		const schema = JoiValidator.object({
+		rules = {
 			name: JoiValidator.string()
 				.min(5)
 				.max(80)
 				.required(),
-			email: JoiValidator.email()
+			email: JoiValidator.string()
+				.email({
+					ignoreLength: true
+				})
 				.min(8)
 				.max(100)
 				.required(),
@@ -17,23 +20,37 @@ class UsersRequest extends Request {
 				.min(8)
 				.max(45)
 				.required()
-		})
+		}
+		const schema = JoiValidator.object(rules)
 		super(schema, JoiValidator)
+		this.JoiValidator = JoiValidator
 	}
 
 	async update(req, res, next) {
 		try {
-			delete this.schemaBody.password
+			delete rules.password
+			const schemaBody = this.JoiValidator.object(rules)
 			await this.schemaHeader.validateAsync(req.headers)
-			await this.schemaBody.validateAsync(req.body)
+			await schemaBody.validateAsync(req.body)
 			next()
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			let path = []
-			objecError.details.forEach(item => {
-				path.push(item.message.replace(/"/g, ''))
+			await super.errorHandle(error)
+		}
+	}
+
+	async password(req, res, next) {
+		try {
+			const schemaBody = this.JoiValidator.object({
+				password: this.JoiValidator.string()
+					.min(8)
+					.max(45)
+					.required()
 			})
-			throw new Error(`${this.codeError}:${path}`)
+			await this.schemaHeader.validateAsync(req.headers)
+			await schemaBody.validateAsync(req.body)
+			next()
+		} catch (error) {
+			await super.errorHandle(error)
 		}
 	}
 }

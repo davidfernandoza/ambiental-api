@@ -12,16 +12,16 @@ class PlayerDto extends Dto {
 		super(schema)
 	}
 
-	async api() {
-		const schema = await super.api()
+	async api(type) {
+		const schema = await super.api(type)
 		schema.auth_token = 'token'
 		delete schema.password
 		return schema
 	}
 
-	async repository() {
+	async repository(type) {
 		this.schema.password = 'password'
-		return super.repository()
+		return super.repository(type)
 	}
 }
 

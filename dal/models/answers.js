@@ -25,16 +25,14 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			timestamps: true,
-			paranoid: true,
 			tableName: 'answers',
 			createdAt: 'created_at',
-			updatedAt: 'updated_at',
-			deletedAt: 'deleted_at'
+			updatedAt: 'updated_at'
 		}
 	)
 	answers.associate = function(models) {
 		/*
-		 * Muchos clientes pertenecen a un pais (M:1)
+		 * Muchas respuestas pertenecen a una pregunta (M:1)
 		 */
 		models.answers.belongsTo(models.questions, {
 			foreignKey: 'id_questions',

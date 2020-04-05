@@ -18,8 +18,7 @@ class Repository {
 			if (entities.length === 0) return null
 			return entities.map(item => morphism(dto, item))
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+			await this.errorHandle(error)
 		}
 	}
 
@@ -30,8 +29,7 @@ class Repository {
 			if (!entity) return null
 			return morphism(dto, entity)
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+			await this.errorHandle(error)
 		}
 	}
 
@@ -44,38 +42,35 @@ class Repository {
 			if (!entity) return null
 			return morphism(dto, entity)
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+			await this.errorHandle(error)
 		}
 	}
 
 	async create(entity) {
 		try {
-			const dto = await this.entityDto.repository()
+			const dto = await this.entityDto.repository('POST')
 			entity = morphism(dto, entity)
 			const created = await this.db[this.entity].create(entity)
 			return morphism(dto, created)
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+			await this.errorHandle(error)
 		}
 	}
 
-	async update(id, entity) {
+	async update(id, entity, attributes) {
 		try {
-			const dto = await this.entityDto.repository()
+			const dto = await this.entityDto.repository('PUT')
+			attributes = !attributes ? null : attributes
 			entity.id = id
 			entity = morphism(dto, entity)
-			delete entity.created_at
-			delete entity.updated_at
+			entity = await this.deleteUpload(entity, attributes)
 			const result = await this.db[this.entity].update(entity, {
 				where: { id }
 			})
 			if (result[0] == 0) return null
 			return result[0]
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+			await this.errorHandle(error)
 		}
 	}
 
@@ -85,9 +80,26 @@ class Repository {
 			if (result == 0) return null
 			return result
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+			await this.errorHandle(error)
 		}
+	}
+
+	async errorHandle(error) {
+		const objecError = JSON.parse(JSON.stringify(error))
+		throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+	}
+
+	async deleteUpload(entity, attributes) {
+		delete entity.created_at
+		delete entity.updated_at
+		if (attributes) {
+			if (Array.isArray(attributes)) {
+				attributes.forEach(item => {
+					delete entity[item]
+				})
+			}
+		}
+		return entity
 	}
 }
 module.exports = Repository

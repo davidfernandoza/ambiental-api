@@ -16,8 +16,12 @@ class PlayersController extends Controller {
 		req.body.password = await bcrypt.hash(password, salt)
 		return super.create(req, res)
 	}
+
+	// Captura del top de jugadores:
 	async getTop(req, res) {
-		console.log(req)
+		const { amount } = req.params
+		let entities = await this.entityDomain.getTop(amount)
+		await super.response(res, entities, 'DON200L')
 	}
 }
 

@@ -22,8 +22,26 @@ class QuestionsRepository extends Repository {
 			if (entities.length == 0) return null
 			return entities.map(item => morphism(dto, item))
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+			await super.errorHandle(error)
+		}
+	}
+
+	async get(id) {
+		try {
+			const dto = await this.entityDto.repository()
+			const entity = await this.db[this.entity].findOne({
+				where: { id },
+				include: [
+					{
+						model: this.db.answers,
+						as: 'answers'
+					}
+				]
+			})
+			if (!entity) return null
+			return morphism(dto, entity)
+		} catch (error) {
+			await super.errorHandle(error)
 		}
 	}
 }

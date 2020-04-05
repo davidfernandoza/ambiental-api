@@ -1,8 +1,9 @@
+'use strict'
 const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
 const basename = path.basename(__filename)
-const { DB } = require('../../config/env')
+const { DB } = require(path.join(__dirname, '../../config/env'))
 const config = DB
 const db = {}
 

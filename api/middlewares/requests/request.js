@@ -20,12 +20,7 @@ class Request {
 			}
 			next()
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			let path = []
-			objecError.details.forEach(item => {
-				path.push(item.message.replace(/"/g, ''))
-			})
-			throw new Error(`${this.codeError}:${path}`)
+			await this.errorHandle(error)
 		}
 	}
 
@@ -36,13 +31,19 @@ class Request {
 			}
 			next()
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			let path = []
-			objecError.details.forEach(item => {
-				path.push(item.message.replace(/"/g, ''))
-			})
-			throw new Error(`${this.codeError}:${path}`)
+			await this.errorHandle(error)
 		}
+	}
+
+	async errorHandle(error) {
+		const objecError = JSON.parse(JSON.stringify(error))
+		let path = []
+		objecError.details.forEach(item => {
+			let message = item.message.replace(/"/g, '')
+			message = message.replace(/http_auth_token/g, 'Auth')
+			path.push(message)
+		})
+		throw new Error(`${this.codeError}:${path}`)
 	}
 }
 module.exports = Request

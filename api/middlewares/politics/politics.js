@@ -67,7 +67,7 @@ class Politics {
 										return { status: 500, message: this.error }
 
 									// Validar si el usuario autentificado es el mismo de la consulta
-									if (valueParam === req[item.authParameter]) {
+									if (valueParam == req[item.authParameter]) {
 										passport = true
 										return true
 									}

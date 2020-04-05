@@ -26,11 +26,9 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			timestamps: true,
-			paranoid: true,
 			tableName: 'players',
 			createdAt: 'created_at',
-			updatedAt: 'updated_at',
-			deletedAt: 'deleted_at'
+			updatedAt: 'updated_at'
 		}
 	)
 

@@ -24,6 +24,7 @@ module.exports = ({
 		UsersPolitics.validate.bind(UsersPolitics)
 	]
 
+	// Controller:
 	const controller = PlayersController
 	const router = Router()
 

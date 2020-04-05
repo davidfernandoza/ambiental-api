@@ -16,6 +16,17 @@ class UsersController extends Controller {
 		req.body.password = await bcrypt.hash(password, salt)
 		return super.create(req, res)
 	}
+
+	// Usuario Autenticado
+	async update(req, res) {
+		req.params.id = req.idUser
+		return super.update(req, res)
+	}
+
+	async delete(req, res) {
+		req.params.id = req.idUser
+		return super.delete(req, res)
+	}
 }
 
 module.exports = UsersController

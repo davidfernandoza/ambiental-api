@@ -12,15 +12,16 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false
 			},
+			expiration: {
+				allowNull: false,
+				type: Sequelize.DATE
+			},
 			created_at: {
 				allowNull: false,
 				type: Sequelize.DATE
 			},
 			updated_at: {
 				allowNull: false,
-				type: Sequelize.DATE
-			},
-			deleted_at: {
 				type: Sequelize.DATE
 			}
 		})

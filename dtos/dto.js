@@ -9,21 +9,24 @@ class Dto {
 		this.attribute = attribute == undefined ? null : attribute
 	}
 
-	async api() {
+	async api(type) {
+		const typeMapping = !type ? 'GET' : type
 		const schema = { ...this.schema }
-		if (this.dto != null && this.attribute != null) {
-			const dto = await this.dto.api()
+		if (this.dto != null && this.attribute != null && typeMapping == 'GET') {
+			const dto = await this.dto.api(typeMapping)
 			schema[this.attribute] = await this.subItems(dto, this.attribute)
 		}
 		return schema
 	}
 
-	async repository() {
+	async repository(type) {
+		const typeMapping = !type ? 'GET' : type
 		const schema = { ...this.schema }
 		schema.created_at = 'created_at'
 		schema.updated_at = 'updated_at'
-		if (this.dto != null && this.attribute != null) {
-			const dto = await this.dto.repository()
+		if (this.dto != null && this.attribute != null && typeMapping == 'GET') {
+
+			const dto = await this.dto.repository(typeMapping)
 			schema[this.attribute] = await this.subItems(dto, this.attribute)
 		}
 		return schema

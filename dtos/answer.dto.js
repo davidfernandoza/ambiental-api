@@ -12,9 +12,9 @@ class AnswerDto extends Dto {
 		super(schema)
 	}
 
-	async repository() {
+	async repository(type) {
 		this.schema.id_questions = 'id_questions'
-		return super.repository()
+		return super.repository(type)
 	}
 }
 

@@ -12,11 +12,14 @@ module.exports = (sequelize, DataTypes) => {
 			token: {
 				allowNull: false,
 				type: DataTypes.STRING
+			},
+			expiration: {
+				allowNull: false,
+				type: DataTypes.DATE
 			}
 		},
 		{
 			timestamps: true,
-			paranoid: false,
 			tableName: 'token_black_list',
 			createdAt: 'created_at',
 			updatedAt: 'updated_at'

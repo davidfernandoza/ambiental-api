@@ -7,52 +7,66 @@ class Controller {
 	constructor(EntityDomain, EntityDto) {
 		this.entityDomain = EntityDomain
 		this.entityDto = EntityDto
+		this.DoneString = DoneString
 	}
 
 	async getAttributes(attribut, match) {
 		let entity = await this.entityDomain.getAttributes(attribut, match)
-		if (!entity) throw Error('404')
 		return entity
 	}
 
 	async getAll(req, res) {
-		const dto = await this.entityDto.api()
 		let entities = await this.entityDomain.getAll()
-		entities = entities.map(item => morphism(dto, item))
-		DoneString.DON200.payload = entities
-		return res.status(DoneString.DON200.status).send(DoneString.DON200)
+		await this.response(res, entities, 'DON200L')
 	}
 
 	async get(req, res) {
-		const dto = await this.entityDto.api()
 		const { id } = req.params
 		let entity = await this.entityDomain.get(id)
-		if (!entity) return res.status(404).send({ payload: [] })
-		entity = morphism(dto, entity)
-		DoneString.DON200.payload = entity
-		return res.status(DoneString.DON200.status).send(DoneString.DON200)
+		await this.response(res, entity, 'DON200')
 	}
 
 	async create(req, res) {
-		const dto = await this.entityDto.api()
 		const { body } = req
 		let created = await this.entityDomain.create(body)
-		created = morphism(dto, created)
-		DoneString.DON201.payload = created
-		return res.status(DoneString.DON201.status).send(DoneString.DON201)
+		await this.response(res, created, 'DON201')
 	}
 
 	async update(req, res) {
 		const { body } = req
 		const { id } = req.params
-		await this.entityDomain.update(id, body)
-		return res.status(DoneString.DON204.status).send(DoneString.DON204)
+		const updated = await this.entityDomain.update(id, body)
+		await this.response(res, updated, 'DON204')
 	}
 
 	async delete(req, res) {
 		const { id } = req.params
-		await this.entityDomain.delete(id)
-		return res.status(DoneString.DON204.status).send()
+		const deleted = await this.entityDomain.delete(id)
+		await this.response(res, deleted, 'DON204')
+	}
+
+	// Funcion que dependiendo del codigo de respuesta muestra el mensaje apropiado
+	async response(res, entity, code) {
+		if (!entity) {
+			this.DoneString.DON404.payload = entity
+			return res
+				.status(this.DoneString.DON404.status)
+				.send(this.DoneString.DON404)
+		}
+		if (code == 'DON200' || code == 'DON201' || code == 'DON200L') {
+			const dto =
+				code == 'DON201'
+					? await this.entityDto.api('POST')
+					: await this.entityDto.api()
+			if (code == 'DON200L') {
+				entity = entity.map(item => morphism(dto, item))
+				code = 'DON200'
+			} else {
+				entity = morphism(dto, entity)
+			}
+		}
+		this.DoneString[code].payload = entity
+		return res.status(this.DoneString[code].status).send(this.DoneString[code])
 	}
 }
 

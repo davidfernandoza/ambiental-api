@@ -1,10 +1,16 @@
 'use strict'
 
 class AuthMiddleware {
-	constructor({ ErrorString, TokenBlackListRepository, TokenServices }) {
-		this.ErrorString = ErrorString
+	constructor({
+		TokenBlackListRepository,
+		TokenServices,
+		UsersRepository,
+		PlayersRepository
+	}) {
 		this.tokenBlackListRepository = TokenBlackListRepository
 		this.tokenServices = TokenServices
+		this.usersRepository = UsersRepository
+		this.playersRepository = PlayersRepository
 	}
 
 	async auth(req, res, next) {
@@ -38,6 +44,13 @@ class AuthMiddleware {
 
 			if (responseToken.status === 403) throw new Error('ERR401')
 			else {
+				if (responseToken.payload.rolUser == 'user') {
+					if (!(await this.usersRepository.get(responseToken.payload.idUser)))
+						throw new Error('ERR401')
+				} else {
+					if (!(await this.playersRepository.get(responseToken.payload.idUser)))
+						throw new Error('ERR401')
+				}
 				req.idUser = responseToken.payload.idUser
 				req.rolUser = responseToken.payload.rolUser
 				next()

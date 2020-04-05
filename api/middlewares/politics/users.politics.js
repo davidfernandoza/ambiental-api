@@ -72,16 +72,14 @@ class UsersPolitics extends Politics {
 						status: 'enable'
 					},
 					{
-						route: '/:id',
+						route: '/',
 						method: 'PUT',
-						status: 'unique',
-						authParameter: 'idUser'
+						status: 'enable'
 					},
 					{
-						route: '/:id',
+						route: '/',
 						method: 'DELETE',
-						status: 'unique',
-						authParameter: 'idUser'
+						status: 'enable'
 					}
 				]
 			}

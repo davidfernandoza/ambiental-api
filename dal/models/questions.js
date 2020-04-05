@@ -15,11 +15,9 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			timestamps: true,
-			paranoid: true,
 			tableName: 'questions',
 			createdAt: 'created_at',
-			updatedAt: 'updated_at',
-			deletedAt: 'deleted_at'
+			updatedAt: 'updated_at'
 		}
 	)
 	questions.associate = function(models) {
@@ -29,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
 		models.questions.hasMany(models.answers, {
 			foreignKey: 'id_questions',
 			sourceKey: 'id',
-			as: 'answers'
+			as: 'answers',
+			onDelete: 'cascade'
 		})
 	}
 	return questions

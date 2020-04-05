@@ -10,7 +10,7 @@ module.exports = {
 	ERR401: {
 		name: 'Unauthorized',
 		status: 401,
-		code: 'ERR405',
+		code: 'ERR401',
 		message: 'No autorizado para solicitar recursos'
 	},
 	ERR403: {

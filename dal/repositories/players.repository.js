@@ -8,21 +8,20 @@ class PlayersRepository extends Repository {
 	}
 
 	async update(id, player) {
+		return await super.update(id, player, ['password'])
+	}
+
+	async getTop(amount) {
 		try {
 			const dto = await this.entityDto.repository()
-			player.id = id
-			player = morphism(dto, player)
-			delete player.created_at
-			delete player.updated_at
-			delete player.password
-			const result = await this.db[this.entity].update(player, {
-				where: { id }
+			const entity = await this.db[this.entity].findAll({
+				limit: amount,
+				order: [['score', 'DESC']]
 			})
-			if (result[0] == 0) return null
-			return result[0]
+			if (entity.length == 0) return null
+			return morphism(dto, entity)
 		} catch (error) {
-			const objecError = JSON.parse(JSON.stringify(error))
-			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+			await super.errorHandle(error)
 		}
 	}
 }
