@@ -14,26 +14,26 @@ module.exports = ({
 	 * -------------------------
 	 * Middlewares:
 	 */
-	const requestAuth = QuestionsRequest.validate.bind(QuestionsRequest)
-	const auth = AuthMiddleware.auth.bind(AuthMiddleware)
+	const requestPrivate = QuestionsRequest.private.bind(QuestionsRequest)
 	const politics = [
 		PlayersPolitics.validate.bind(PlayersPolitics),
 		UsersPolitics.validate.bind(UsersPolitics)
 	]
+	const auth = AuthMiddleware.auth.bind(AuthMiddleware)
 	const controller = QuestionsController
 	const router = Router()
 
 	// GET:
 	router.get(
 		'/',
-		requestAuth,
+		requestPrivate,
 		auth,
 		politics,
 		controller.getAll.bind(controller)
 	)
 	router.get(
 		'/:id',
-		requestAuth,
+		requestPrivate,
 		auth,
 		politics,
 		controller.get.bind(controller)
@@ -42,7 +42,7 @@ module.exports = ({
 	// POST:
 	router.post(
 		'/',
-		requestAuth,
+		requestPrivate,
 		auth,
 		politics,
 		controller.create.bind(controller)
@@ -51,7 +51,7 @@ module.exports = ({
 	// PUT:
 	router.put(
 		'/:id',
-		requestAuth,
+		requestPrivate,
 		auth,
 		politics,
 		controller.update.bind(controller)
@@ -60,7 +60,7 @@ module.exports = ({
 	// DELETE:
 	router.delete(
 		'/:id',
-		requestAuth,
+		requestPrivate,
 		auth,
 		politics,
 		controller.delete.bind(controller)

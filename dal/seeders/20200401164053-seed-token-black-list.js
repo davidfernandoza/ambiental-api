@@ -19,7 +19,16 @@ module.exports = {
 					token:
 						'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsInJvbCI6InVzZXIiLCJpYXQiOjE1ODU3MTUxMjYsImV4cCI6MTU4NjMxOTkyNn0.q03POPd0_GEmr4a0w_YZ7A7ffEIuVfQ2dcv760Ifbd8',
 					expiration: moment()
-						.add(5, 'days')
+						.subtract(5, 'days')
+						.toISOString(),
+					created_at: new Date().toDateString(),
+					updated_at: new Date().toDateString()
+				},
+				{
+					token:
+						'WyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsInJvbCI6InVzZXIiLCJpYXQiOjE1OdDU3MTUxMjYsImV4cCI6MTU4NjMxOTkyNn0.q03POPd0_GEmr4a0w_YZ7A7ffEIuVfQ2dcv760Ifbd1',
+					expiration: moment()
+						.subtract(5, 'days')
 						.toISOString(),
 					created_at: new Date().toDateString(),
 					updated_at: new Date().toDateString()

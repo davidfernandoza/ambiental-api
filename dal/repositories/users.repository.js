@@ -6,7 +6,11 @@ class UsersRepository extends Repository {
 	}
 
 	async update(id, player) {
-		return await super.update(id, player, ['password'])
+		return await super.update(id, player, null, ['password'])
+	}
+
+	async password(id, password) {
+		return await super.update(id, password, { password: 'password' })
 	}
 }
 module.exports = UsersRepository

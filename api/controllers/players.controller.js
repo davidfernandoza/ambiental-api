@@ -5,7 +5,7 @@ const Controller = require(join(__dirname, './controller'))
 
 class PlayersController extends Controller {
 	constructor({ PlayersRepository, PlayerDto, Config }) {
-		super(PlayersRepository, PlayerDto)
+		super(PlayersRepository, PlayerDto, Config)
 		this.config = Config
 	}
 

@@ -29,18 +29,22 @@ class AuthMiddleware {
 			let responseToken = await this.tokenServices.decode(authToken, false)
 
 			// Refrescar token:
-			if (responseToken.status === 401) {
-				const newToken = await this.tokenServices.refresh(authToken)
+			if (responseToken.status === 401) throw new Error('ERR401')
 
-				if (newToken.status === 403) {
-					responseToken.status = 403
-				} else {
-					responseToken = await this.tokenServices.decode(
-						newToken.payload.token,
-						false
-					)
-				}
-			}
+			// Codigo para refrescar Token, La api siempre debe entregar este token en las consultas:
+
+			// {
+			// 	const newToken = await this.tokenServices.refresh(authToken)
+
+			// 	if (newToken.status === 403) {
+			// 		responseToken.status = 403
+			// 	} else {
+			// 		responseToken = await this.tokenServices.decode(
+			// 			newToken.payload.token,
+			// 			false
+			// 		)
+			// 	}
+			// }
 
 			if (responseToken.status === 403) throw new Error('ERR401')
 			else {

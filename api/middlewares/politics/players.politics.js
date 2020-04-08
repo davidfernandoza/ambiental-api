@@ -40,10 +40,20 @@ class PlayersPolitics extends Politics {
 						status: 'enable'
 					},
 					{
+						route: '/new-token',
+						method: 'POST',
+						status: 'enable'
+					},
+					{
 						route: '/:id',
 						method: 'PUT',
 						status: 'unique',
 						authParameter: 'idUser'
+					},
+					{
+						route: '/password',
+						method: 'PATCH',
+						status: 'enable'
 					},
 					{
 						route: '/:id',
@@ -74,6 +84,11 @@ class PlayersPolitics extends Politics {
 						route: '/:id',
 						method: 'PUT',
 						status: 'disable'
+					},
+					{
+						route: '/password',
+						method: 'PATCH',
+						status: 'enable'
 					},
 					{
 						route: '/:id',

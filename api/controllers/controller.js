@@ -1,13 +1,17 @@
 'use strict'
 const { join } = require('path')
 const { morphism } = require('morphism')
+const bcrypt = require('bcrypt')
 const { DoneString } = require(join(__dirname, '../strings'))
 
 class Controller {
-	constructor(EntityDomain, EntityDto) {
+	constructor(EntityDomain, EntityDto, Config) {
 		this.entityDomain = EntityDomain
 		this.entityDto = EntityDto
 		this.DoneString = DoneString
+		if (Config) {
+			this.config = Config
+		}
 	}
 
 	async getAttributes(attribut, match) {
@@ -35,7 +39,17 @@ class Controller {
 	async update(req, res) {
 		const { body } = req
 		const { id } = req.params
-		const updated = await this.entityDomain.update(id, body)
+		const updated = await this.entityDomain.update(id, body, null)
+		await this.response(res, updated, 'DON204')
+	}
+
+	async password(req, res) {
+		let { password } = req.body
+		const id = req.idUser
+		const round = parseInt(this.config.SALT_CRYPT)
+		const salt = await bcrypt.genSalt(round)
+		password = await bcrypt.hash(password, salt)
+		const updated = await this.entityDomain.password(id, { password })
 		await this.response(res, updated, 'DON204')
 	}
 

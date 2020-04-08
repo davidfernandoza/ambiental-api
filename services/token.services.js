@@ -3,10 +3,10 @@ const jwt = require('jwt-simple')
 const moment = require('moment')
 
 class TokenServices {
-	constructor({ Config, UsersController, PlayersController }) {
+	constructor({ Config, UsersRepository, PlayersRepository }) {
 		this.config = Config
-		this.UsersController = UsersController
-		this.PlayersController = PlayersController
+		this.usersRepository = UsersRepository
+		this.playersRepository = PlayersRepository
 	}
 
 	//  Metodo para crear el token
@@ -61,12 +61,12 @@ class TokenServices {
 		// Validar la existencia del usuario
 		let userPlayer = ''
 		if (dataToken.payload.rolUser == 'user') {
-			userPlayer = await this.UsersController.get(dataToken.payload.idUser)
+			userPlayer = await this.usersRepository.get(dataToken.payload.idUser)
 		} else {
-			userPlayer = await this.PlayersController.get(dataToken.payload.idUser)
+			userPlayer = await this.playersRepository.get(dataToken.payload.idUser)
 		}
 
-		if (userPlayer == null) return { status: 403, payload: null }
+		if (!userPlayer) return { status: 403, payload: null }
 
 		// creacion de nuevo token con datos antiguos
 		const newToken = await this.create(

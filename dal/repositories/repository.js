@@ -57,9 +57,11 @@ class Repository {
 		}
 	}
 
-	async update(id, entity, attributes) {
+	async update(id, entity, dto, attributes) {
 		try {
-			const dto = await this.entityDto.repository('PUT')
+			if (!dto) {
+				dto = await this.entityDto.repository('PUT')
+			}
 			attributes = !attributes ? null : attributes
 			entity.id = id
 			entity = morphism(dto, entity)
@@ -86,7 +88,11 @@ class Repository {
 
 	async errorHandle(error) {
 		const objecError = JSON.parse(JSON.stringify(error))
-		throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+		if (Object.entries(objecError).length === 0) {
+			throw new Error(error)
+		} else {
+			throw new Error(`${this.codeError}:${objecError.parent.detail}`)
+		}
 	}
 
 	async deleteUpload(entity, attributes) {

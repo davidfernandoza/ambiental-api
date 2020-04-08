@@ -3,14 +3,14 @@ const { join } = require('path')
 const Request = require(join(__dirname, './request'))
 
 class QuestionsRequest extends Request {
-	constructor({ JoiValidator }) {
-		const schema = JoiValidator.object({
+	constructor({ JoiValidator, Config }) {
+		const body = {
 			description: JoiValidator.string()
 				.min(10)
 				.max(225)
 				.required()
-		})
-		super(schema, JoiValidator)
+		}
+		super(body, JoiValidator, Config.CRFS)
 	}
 }
 module.exports = QuestionsRequest

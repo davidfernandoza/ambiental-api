@@ -27,6 +27,12 @@ class UsersController extends Controller {
 		req.params.id = req.idUser
 		return super.delete(req, res)
 	}
+
+	async newToken(req, res) {
+		const { amount } = req.params
+		let entities = await this.entityDomain.getTop(amount)
+		await super.response(res, entities, 'DON200L')
+	}
 }
 
 module.exports = UsersController

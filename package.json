@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "db-refresh": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
+    "db-refresh": "sequelize db:seed:undo:all && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "db-refresh-hard": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
   },
   "repository": {

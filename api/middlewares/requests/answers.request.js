@@ -3,8 +3,8 @@ const { join } = require('path')
 const Request = require(join(__dirname, './request'))
 
 class AnswersRequest extends Request {
-	constructor({ JoiValidator }) {
-		const schema = JoiValidator.object({
+	constructor({ JoiValidator, Config }) {
+		const body = {
 			id_questions: JoiValidator.number()
 				.integer()
 				.min(1)
@@ -15,8 +15,8 @@ class AnswersRequest extends Request {
 				.max(225)
 				.required(),
 			is_correct: JoiValidator.boolean().required()
-		})
-		super(schema, JoiValidator)
+		}
+		super(body, JoiValidator, Config.CRFS)
 	}
 }
 module.exports = AnswersRequest

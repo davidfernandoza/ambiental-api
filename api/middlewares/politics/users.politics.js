@@ -39,9 +39,19 @@ class UsersPolitics extends Politics {
 						status: 'enable'
 					},
 					{
+						route: '/new-token',
+						method: 'POST',
+						status: 'disable'
+					},
+					{
 						route: '/:id',
 						method: 'PUT',
 						status: 'enable'
+					},
+					{
+						route: '/password',
+						method: 'PATCH',
+						status: 'disable'
 					},
 					{
 						route: '/:id',
@@ -72,8 +82,18 @@ class UsersPolitics extends Politics {
 						status: 'enable'
 					},
 					{
+						route: '/new-token',
+						method: 'POST',
+						status: 'enable'
+					},
+					{
 						route: '/',
 						method: 'PUT',
+						status: 'enable'
+					},
+					{
+						route: '/password',
+						method: 'PATCH',
 						status: 'enable'
 					},
 					{

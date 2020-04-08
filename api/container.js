@@ -12,7 +12,7 @@ const { asClass, asFunction, asValue, createContainer } = require('awilix')
 const container = createContainer()
 
 // Auths
-const { PlayerAuth, UserAuth } = require(path.join(
+const { PlayerAuth, UserAuth, NewTokenAuth } = require(path.join(
 	__dirname,
 	'./controllers/auth'
 ))
@@ -123,7 +123,8 @@ container
 	 */
 	.register({
 		PlayerAuth: asClass(PlayerAuth).singleton(),
-		UserAuth: asClass(UserAuth).singleton()
+		UserAuth: asClass(UserAuth).singleton(),
+		NewTokenAuth: asClass(NewTokenAuth).singleton()
 	})
 	/*
 	 * Controllers:

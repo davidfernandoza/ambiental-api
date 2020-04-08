@@ -1,10 +1,12 @@
 'use strict'
 const { join } = require('path')
 const Request = require(join(__dirname, './request'))
-let rules = {}
+let body = {}
+let passwordRule = {}
+
 class UsersRequest extends Request {
-	constructor({ JoiValidator }) {
-		rules = {
+	constructor({ JoiValidator, Config }) {
+		body = {
 			name: JoiValidator.string()
 				.min(5)
 				.max(80)
@@ -21,37 +23,40 @@ class UsersRequest extends Request {
 				.max(45)
 				.required()
 		}
-		const schema = JoiValidator.object(rules)
-		super(schema, JoiValidator)
-		this.JoiValidator = JoiValidator
+		passwordRule = {
+			password: JoiValidator.string()
+				.min(8)
+				.max(45)
+				.required()
+		}
+		super(body, JoiValidator, Config.CRFS)
 	}
 
 	async update(req, res, next) {
-		try {
-			delete rules.password
-			const schemaBody = this.JoiValidator.object(rules)
-			await this.schemaHeader.validateAsync(req.headers)
-			await schemaBody.validateAsync(req.body)
-			next()
-		} catch (error) {
-			await super.errorHandle(error)
+		delete body.password
+		const header = await super.header(req)
+		if (header != true) await super.errorHandle(header)
+		else if (req.method != 'GET' && req.method != 'DELETE') {
+			const bodyRes = await super.body(req, body)
+			if (bodyRes != true) await super.errorHandle(bodyRes)
 		}
+		next()
 	}
 
 	async password(req, res, next) {
-		try {
-			const schemaBody = this.JoiValidator.object({
-				password: this.JoiValidator.string()
-					.min(8)
-					.max(45)
-					.required()
-			})
-			await this.schemaHeader.validateAsync(req.headers)
-			await schemaBody.validateAsync(req.body)
-			next()
-		} catch (error) {
-			await super.errorHandle(error)
+		const header = await super.header(req)
+		if (header != true) await super.errorHandle(header)
+		else if (req.method != 'GET' && req.method != 'DELETE') {
+			const bodyRes = await super.body(req, passwordRule)
+			if (bodyRes != true) await super.errorHandle(bodyRes)
 		}
+		next()
+	}
+
+	async newToken(req, res, next) {
+		const header = await super.header(req)
+		if (header != true) await super.errorHandle(header)
+		next()
 	}
 }
 module.exports = UsersRequest

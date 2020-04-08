@@ -6,9 +6,17 @@ class TokenBlackListDto extends Dto {
 	constructor() {
 		const schema = {
 			id: 'id',
-			token: 'token'
+			token: 'token',
+			expiration: 'expiration'
 		}
 		super(schema)
+	}
+
+	async api(type) {
+		const schema = await super.api(type)
+		delete schema.token
+		schema.auth_token = 'token'
+		return schema
 	}
 }
 
