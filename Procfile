@@ -1,3 +1,1 @@
-release: bash ./deploy.sh
-
-web: npm start
+web:node index.js
