@@ -7,7 +7,7 @@ Este utiliza las buenas practicas del protocolo HTTP.
 Es un juego de preguntas y respuestas con administración de usuarios y jugadores.
 
 ## Tabla de contenido
-<hr>
+
 
 - [Tipos de Endpoint](#tipos-de-endpoint).
 - [Permisos de los Endpoints](#permisos-de-los-endpoints).
@@ -22,13 +22,13 @@ Es un juego de preguntas y respuestas con administración de usuarios y jugadore
 
 
 ## Tipos de Endpoint
-<hr>
+
 
 1. **Auth:** Se necesita un Token de autentificación para un *Usuario(user)* o un *Jugador(player)* y un Token de CSRF quemado en la APP.
 2. **Public:** Se necesita como mínimo el token de CSRF quemado en la APP.
 
 ## Permisos de los Endpoints
-<hr>
+
 
 1. **Publico(Public):** Tanto personas autentificadas y sin autentificar pueden ver el contenido.
 2. **Usuario(User):** Solo los usuarios pueden ver el contenido.
@@ -39,7 +39,7 @@ Es un juego de preguntas y respuestas con administración de usuarios y jugadore
 
 
 ## Respuestas de tipo 200
-<hr>
+
 
 Son respuestas exitosas que el servidor manda.
 
@@ -70,7 +70,7 @@ Son respuestas que se mandan cuando una petición *PUT / PATCH / DELETE* es exit
 
 
 ## Errores de tipo 400
-<hr>
+
 
 Son errores creados por el cliente de la API.
 
@@ -122,7 +122,7 @@ message: 'Recurso no encontrado'
 ```
 
 ## Error interno del servidor
-<hr>
+
 
 El servidor cuando presenta errores internos lanza este error.
 
@@ -137,12 +137,12 @@ message: 'Error interno del servidor'
 # Answers
 
 ## Get(Auth)
-<hr>
+
 
 Entrega una respuesta en particular, dependiendo del id seteado en la url.
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id de la respuesta a buscar.
@@ -152,17 +152,17 @@ Entrega una respuesta en particular, dependiendo del id seteado en la url.
 2. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 
 ## Create(Auth)
-<hr>
+
 
 Crea a una respuesta para asignarle a pregunta.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación de usuario.
@@ -174,18 +174,18 @@ Crea a una respuesta para asignarle a pregunta.
 3. ```is_correct``` : ```boolean``` Atributo booleano que indica si una respuesta es correcta o no.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 
 ## Update(Auth)
-<hr>
+
 
 Edita una respuesta en particular, dependiendo del id seteado en la url.
 
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id de la respuesta a editar.
@@ -201,17 +201,17 @@ Edita una respuesta en particular, dependiendo del id seteado en la url.
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Usuario(User)***
 
 ## Delete(Auth)
-<hr>
+
 
 Elimina una respuesta en particular, dependiendo del id seteado en la url.
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id de la respuesta a eliminar.
@@ -222,71 +222,71 @@ Elimina una respuesta en particular, dependiendo del id seteado en la url.
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Usuario(User)***
 
 # Auth
 
 ## LoginPlayer(Public)
-<hr>
+
 
 Recurso para la autentificación del jugador.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Jugador(Player)***
 
 
 ## LoginUser(Public)
-<hr>
+
 
 Recurso para la autentificación del usuario.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 
 # Players
 
 ## GetAll(Auth)
-<hr>
+
 
 Entrega la lista de todos los jugadores registrados en el sistema.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación de usuario.
 2. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 
 ## GetTop(Public)
-<hr>
+
 
 Entrega el top de jugadores, dependiendo de la cantidad seteada en la url.  
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/top/:amound``` : ```integer``` Cantidad de registros a traer.
@@ -295,17 +295,17 @@ Entrega el top de jugadores, dependiendo de la cantidad seteada en la url.
 1. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Publico(Public)***
 
 ## Get(Auth)
-<hr>
+
 
 Entrega a un jugador en particular, dependiendo del id seteado en la url.
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id del jugador a buscar.
@@ -315,18 +315,18 @@ Entrega a un jugador en particular, dependiendo del id seteado en la url.
 2. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 2. ***Jugador(Player) - Unico(Unique)***
 
 ## Create(Public)
-<hr>
+
 
 Crea a un jugador.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
@@ -336,34 +336,34 @@ Crea a un jugador.
 2. ```password``` : ```string``` Atributo de texto, el cual almacena la pregunta en si.
 
 ## Permisos:
-<hr>
+
 
 1. ***Publico(Public)***
 
 ## NewTOken(Auth)
-<hr>
+
 
 Entrega un nuevo token de autentificación al jugador actualmente autentificado.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación del jugador.
 2. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Jugador(Player) - Unico(Unique)***
 
 ## Update(Auth)
-<hr>
+
 
 Edita a un jugador en particular, dependiendo del id seteado en la url.
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id del jugador a editar.
@@ -378,18 +378,18 @@ Edita a un jugador en particular, dependiendo del id seteado en la url.
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Usuarios(User)***
 2. ***Jugador(Player) - Unico(Unique)***
 
 ## UpdatePassword(Auth)
-<hr>
+
 
 Edita el password del jugador actualmente autentificado.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación del jugador.
@@ -400,17 +400,17 @@ Edita el password del jugador actualmente autentificado.
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Jugador(Player) - Unico(Unique)***
 
 ## Delete(Auth)
-<hr>
+
 
 Elimina a un jugador en particular, dependiendo del id seteado en la url.
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id del jugador a eliminar.
@@ -421,7 +421,7 @@ Elimina a un jugador en particular, dependiendo del id seteado en la url.
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Usuario(User)***
 2. ***Jugador(Player) - Unico(Unique)***
@@ -429,31 +429,31 @@ Elimina a un jugador en particular, dependiendo del id seteado en la url.
 # Questions
 
 ## GetAll(Auth)
-<hr>
+
 
 Entrega la lista de todas las preguntas con sus respectivas respuestas registradas en el sistema.
 
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación de usuario o jugador.
 2. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 2. ***Jugador(Player)***
 
 ## Get(Auth)
-<hr>
+
 
 Entrega una pregunta en particular con sus respectivas respuestas, dependiendo del id de la pregunta seteado en la url.
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id de la pregunta a buscar.
@@ -463,17 +463,17 @@ Entrega una pregunta en particular con sus respectivas respuestas, dependiendo d
 2. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 
 ## Create(Auth)
-<hr>
+
 
 Crea una pregunta.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación de usuario.
@@ -484,17 +484,17 @@ Crea una pregunta.
 
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 
 ## Update(Auth)
-<hr>
+
 
 Edita una pregunta en particular, dependiendo del id seteado en la url.
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id de la pregunta a editar.
@@ -508,17 +508,17 @@ Edita una pregunta en particular, dependiendo del id seteado en la url.
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Usuario(User)***
 
 ## Delete(Auth)
-<hr>
+
 
 Elimina una pregunta en particular con sus respectivas respuestas , dependiendo del id seteado en la url.
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id de la pregunta a eliminar.
@@ -529,36 +529,36 @@ Elimina una pregunta en particular con sus respectivas respuestas , dependiendo 
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Usuario(User)***
 
 # Users
 
 ## GetAll(Auth)
-<hr>
+
 
 Entrega la lista de todos los usuarios registrados en el sistema.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación de usuario.
 2. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 
 ## Get(Auth)
-<hr>
+
 
 Entrega a un usuario en particular, dependiendo del id seteado en la url.
 
 ## Request
-<hr>	
+	
 
 ### Url: 
 1.  ```/:id``` : ```integer``` Id del usuario a buscar.
@@ -568,17 +568,17 @@ Entrega a un usuario en particular, dependiendo del id seteado en la url.
 2. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 
 ## Create(Auth)
-<hr>
+
 
 Crea a un usuario.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación de usuario.
@@ -590,35 +590,35 @@ Crea a un usuario.
 3. ```password``` : ```string``` Atributo de texto que almacena la contraseña del usuario.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User)***
 
 ## NewToken(Auth)
-<hr>
+
 
 Entrega un nuevo token de autentificación al usuario actualmente autentificado.
 
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación del usuario.
 2. ```http_csrf_token``` : ```string``` Token de CSRF de identificacion del dispositivo.
 
 ## Permisos:
-<hr>
+
 
 1. ***Usuario(User) - Unico(Unique)***
 
 ## Update(Auth)
-<hr>
+
 
 Edita al usuario actualmente autentificado.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación de usuario.
@@ -630,18 +630,18 @@ Edita al usuario actualmente autentificado.
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Usuario(User) - Unico(Unique)***
 
 ## Patch(Auth)
-<hr>
+
 
 Edita el password del usuario actualmente autentificado.
 
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación del usuario.
@@ -652,17 +652,17 @@ Edita el password del usuario actualmente autentificado.
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Usuario(User) - Unico(Unique)***
 
 ## Delete(Auth)
-<hr>
+
 
 Elimina el usuario actualmente autentificado.
 
 ## Request
-<hr>	
+	
 
 ### Headers:
 1. ```http_auth_token``` : ```string``` Token de autentificación de usuario.
@@ -670,6 +670,6 @@ Elimina el usuario actualmente autentificado.
 
 
 ## Permisos:
-<hr>	
+	
 
 1. ***Usuario(User) - Unico(Unique)***
