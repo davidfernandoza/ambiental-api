@@ -30,14 +30,15 @@ module.exports = (sequelize, DataTypes) => {
 			updatedAt: 'updated_at'
 		}
 	)
-	answers.associate = function(models) {
+	answers.associate = function (models) {
 		/*
 		 * Muchas respuestas pertenecen a una pregunta (M:1)
 		 */
 		models.answers.belongsTo(models.questions, {
 			foreignKey: 'id_questions',
 			targetKey: 'id',
-			as: 'questions'
+			as: 'questions',
+			onDelete: 'cascade'
 		})
 	}
 	return answers

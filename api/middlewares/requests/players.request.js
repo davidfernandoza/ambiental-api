@@ -7,14 +7,8 @@ let passwordRule = {}
 class PlayersRequest extends Request {
 	constructor({ JoiValidator, Config }) {
 		body = {
-			username: JoiValidator.string()
-				.min(5)
-				.max(100)
-				.required(),
-			password: JoiValidator.string()
-				.min(8)
-				.max(45)
-				.required(),
+			username: JoiValidator.string().min(5).max(100).required(),
+			password: JoiValidator.string().min(8).max(45).required(),
 			score: JoiValidator.number()
 				.integer()
 				.min(0)
@@ -23,12 +17,9 @@ class PlayersRequest extends Request {
 				.optional()
 		}
 		passwordRule = {
-			password: JoiValidator.string()
-				.min(8)
-				.max(45)
-				.required()
+			password: JoiValidator.string().min(8).max(45).required()
 		}
-		super(body, JoiValidator, Config.CRFS)
+		super(body, JoiValidator, Config.CSRF)
 	}
 
 	async update(req, res, next) {

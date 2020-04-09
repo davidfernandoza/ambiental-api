@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 			updatedAt: 'updated_at'
 		}
 	)
-	questions.associate = function(models) {
+	questions.associate = function (models) {
 		/*
 		 * Una pregunta tiene muchas respuestas (1:M)
 		 */

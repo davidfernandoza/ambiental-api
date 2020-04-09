@@ -14,7 +14,9 @@ module.exports = {
 				references: {
 					model: 'questions',
 					key: 'id'
-				}
+				},
+				onUpdate: 'SET NULL',
+				onDelete: 'CASCADE'
 			},
 			description: {
 				allowNull: false,

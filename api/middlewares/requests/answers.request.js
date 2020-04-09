@@ -10,13 +10,10 @@ class AnswersRequest extends Request {
 				.min(1)
 				.max(9999999999)
 				.required(),
-			description: JoiValidator.string()
-				.min(10)
-				.max(225)
-				.required(),
+			description: JoiValidator.string().min(10).max(225).required(),
 			is_correct: JoiValidator.boolean().required()
 		}
-		super(body, JoiValidator, Config.CRFS)
+		super(body, JoiValidator, Config.CSRF)
 	}
 }
 module.exports = AnswersRequest

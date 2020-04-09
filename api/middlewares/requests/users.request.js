@@ -7,10 +7,7 @@ let passwordRule = {}
 class UsersRequest extends Request {
 	constructor({ JoiValidator, Config }) {
 		body = {
-			name: JoiValidator.string()
-				.min(5)
-				.max(80)
-				.required(),
+			name: JoiValidator.string().min(5).max(80).required(),
 			email: JoiValidator.string()
 				.email({
 					ignoreLength: true
@@ -18,18 +15,12 @@ class UsersRequest extends Request {
 				.min(8)
 				.max(100)
 				.required(),
-			password: JoiValidator.string()
-				.min(8)
-				.max(45)
-				.required()
+			password: JoiValidator.string().min(8).max(45).required()
 		}
 		passwordRule = {
-			password: JoiValidator.string()
-				.min(8)
-				.max(45)
-				.required()
+			password: JoiValidator.string().min(8).max(45).required()
 		}
-		super(body, JoiValidator, Config.CRFS)
+		super(body, JoiValidator, Config.CSRF)
 	}
 
 	async update(req, res, next) {

@@ -1,21 +1,16 @@
 'use strict'
 
 class Request {
-	constructor(SchemaBody, JoiValidator, CRFS) {
+	constructor(SchemaBody, JoiValidator, CSRF) {
 		this.codeError = 'ERR400'
-		this.crfsToken = CRFS
+		this.csrfToken = CSRF
 		this.joiValidator = JoiValidator
 		this.schemaBody = SchemaBody
 		this.schemaAuth = {
-			http_auth_token: JoiValidator.string()
-				.min(80)
-				.max(225)
-				.required()
+			http_auth_token: JoiValidator.string().min(80).max(225).required()
 		}
 		this.schemaCsrf = {
-			http_crfs_token: JoiValidator.any()
-				.valid(this.crfsToken)
-				.required()
+			http_csrf_token: JoiValidator.any().valid(this.csrfToken).required()
 		}
 	}
 
@@ -45,7 +40,7 @@ class Request {
 			let rules = {}
 			if (!type) {
 				rules = {
-					http_crfs_token: this.schemaCsrf.http_crfs_token,
+					http_csrf_token: this.schemaCsrf.http_csrf_token,
 					http_auth_token: this.schemaAuth.http_auth_token
 				}
 			} else {
@@ -76,15 +71,18 @@ class Request {
 	async errorHandle(error) {
 		const objecError = JSON.parse(JSON.stringify(error))
 		let path = []
+		// if (Array.isArray(objecError)) {
 		objecError.details.forEach(item => {
 			let message = item.message.replace(/"/g, '')
 			message = message.replace(/http_auth_token/g, 'Auth')
-			message = message.replace(/http_crfs_token/g, 'Token')
+			message = message.replace(/http_csrf_token/g, 'Token')
 			message = message.replace(/\[/g, '')
 			message = message.replace(/\]/g, '')
-			message = message.replace(new RegExp(this.crfsToken, 'g'), 'Correct')
+			message = message.replace(new RegExp(this.csrfToken, 'g'), 'Correct')
 			path.push(message)
 		})
+		// }
+
 		throw new Error(`${this.codeError}:${path}`)
 	}
 }
